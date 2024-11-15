@@ -10,7 +10,6 @@
       <h3 class="heading">{{ domainSelectionMessage }}</h3>
       <p class="subheading">{{ domainSelectionMessageDetails }}</p>
 
-      <!-- Render each domain option as a clickable card -->
       <div class="domain-options">
         <CardOption
           v-for="domain in domains"
@@ -33,6 +32,14 @@ import DynamicBackground from "@/components/DynamicBackground.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import CardOption from "@/components/CardOption.vue";
 
+function generateUUID() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export default {
   components: {
     DynamicBackground,
@@ -40,7 +47,7 @@ export default {
     CardOption,
   },
   computed: {
-    ...mapState(["progress"]),
+    ...mapState(["progress", "deviceId"]),
   },
   data() {
     return {
@@ -51,13 +58,18 @@ export default {
     };
   },
   async created() {
+    if (!this.deviceId) {
+      const newDeviceId = generateUUID();
+      this.saveDeviceId(newDeviceId);
+    }
+
     try {
       const data = await apiService.fetchOnboardingData();
       this.s3url = data.appurls.s3url;
       this.domainSelectionMessage = data.domainSelectionMessage;
       this.domainSelectionMessageDetails = data.domainSelectionMessageDetails;
       this.domains = data.domains;
-      console.log(data.tempUserId);
+
       if (data.tempUserId) {
         this.saveTempUserId(data.tempUserId);
       } else {
@@ -71,15 +83,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["updateProgress", "saveTempUserId", "saveSelectedDomainId"]),
+    ...mapActions([
+      "updateProgress",
+      "saveTempUserId",
+      "saveSelectedDomainId",
+      "saveDeviceId",
+    ]),
     selectDomain(domain) {
       if (!domain || !domain.domainId) {
         console.error("No domain selected");
         return;
       }
 
-      console.log("Selected domain ID:", domain.domainId);
-      this.saveSelectedDomainId(domain.domainId); // Store selectedDomainId in Vuex
+      this.saveSelectedDomainId(domain.domainId);
       this.updateProgress(50);
       this.$router.push({ name: "SkillLearningPriorities" });
     },
@@ -92,25 +108,25 @@ export default {
 
 .onboarding-content {
   font-family: "Poppins", sans-serif;
-  margin-top: 20px;
+  margin-top: 2rem;
   text-align: center;
   color: white;
 }
 
 .heading {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .subheading {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .domain-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 1rem;
   justify-content: center;
 }
 
@@ -119,5 +135,17 @@ export default {
   margin: 0 auto;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .heading {
+    font-size: 1rem;
+  }
+  .subheading {
+    font-size: 0.65rem;
+  }
+  .domain-options {
+    gap: 1rem;
+  }
 }
 </style>

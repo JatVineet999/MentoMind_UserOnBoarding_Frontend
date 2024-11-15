@@ -18,7 +18,7 @@ export default {
   props: {
     progress: {
       type: Number,
-      default: 0, // Default progress, can be set dynamically
+      default: 0,
     },
   },
   data() {
@@ -47,7 +47,6 @@ export default {
 }
 
 .content-box {
-  /* background-color: white; */
   border-radius: 15px;
   padding: 20px;
   width: 90%;

@@ -25,7 +25,7 @@ export default {
     },
     alignment: {
       type: String,
-      default: "left", // 'left' or 'center'
+      default: "left",
     },
   },
   computed: {
@@ -43,8 +43,8 @@ export default {
 
 <style scoped>
 .card-option {
-  width: 200px;
-  padding: 15px;
+  width: 35%;
+  padding: 0.8rem;
   cursor: pointer;
 }
 
@@ -64,8 +64,8 @@ export default {
 }
 
 .option-image {
-  width: 45px;
-  height: 45px;
+  width: 3rem;
+  height: 2.7rem;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 10px;
@@ -78,8 +78,20 @@ h3 {
 }
 
 p {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
   margin: 5px 0 0 0;
+}
+@media (max-width: 576px) {
+  .option-image {
+    width: 2rem;
+    height: 1.7rem;
+  }
+  h3 {
+    font-size: 0.7rem;
+  }
+  p {
+    font-size: 0.5rem;
+  }
 }
 </style>

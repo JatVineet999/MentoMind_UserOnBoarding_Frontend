@@ -14,7 +14,6 @@ module.exports = defineConfig({
   },
   pluginOptions: {
     vuetify: {
-      // Vuetify plugin options
     },
   },
 });

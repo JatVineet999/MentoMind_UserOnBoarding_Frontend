@@ -78,7 +78,7 @@ export default {
   methods: {
     ...mapActions(["updateProgress", "saveSelectedOptionId"]),
     selectOption(option) {
-      this.updateProgress(100);
+      this.updateProgress(75);
       this.saveSelectedOptionId(option.optionId); // Store selected option in Vuex
       this.$router.push({ name: "UserPersonalInfo" });
     },
@@ -91,51 +91,68 @@ export default {
 
 .skill-learning-content {
   font-family: "Poppins", sans-serif;
-  margin-top: 20px;
+  margin-top: 2rem; 
   text-align: center;
   color: white;
 }
 
 .heading {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  font-size: 1.2rem; 
+  margin-bottom: 2rem; 
 }
 
 .options-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 2rem; 
   justify-content: center;
 }
 
 .option-card {
-  width: 200px;
-  padding: 15px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 30%;
 }
 
 .card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 1rem;
   text-align: center;
+}
+h3 {
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .option-image {
-  width: 45px;
-  height: 45px;
+  width: 3rem;
+  height: 2.7rem;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 1rem; 
 }
 
-.progress-bar-container {
-  width: 45%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
+@media (max-width: 576px) {
+  .heading {
+    font-size: 1.4rem;
+  }
+
+  .option-card {
+    width: 140px;
+  }
+
+  .option-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .options-container {
+    gap: 0.8rem;
+  }
 }
 </style>
